@@ -1,12 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Parts List</title>
 </head>
-<body>
-<h1>Hello!</h1>
-<h3>Igor</h3>
-<p>Welcome to Our App</p>
-</body>
+    <body>
+        <h2>Parts list</h2>
+
+        <table border="2">
+            <tr>
+                <th>Наименование</th>
+                <th>Необходимость</th>
+                <th>Количество</th>
+                <th>Редактировать</th>
+                <th>Удалить</th>
+            </tr>
+            <tr th:each="part : ${parts}" >
+                <td th:text="${part.title}"></td>
+                <td th:text="${part.isNecessary()}"></td>
+                <td th:text="${part.quantity}"></td>
+                <td>
+                    <a th:href="@{/edit/{id}(id=${part.id})}">Edit</a>
+                </td>
+                <td>
+                    <a th:href="@{/update/{id}(id=${part.id})}">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </body>
 </html>

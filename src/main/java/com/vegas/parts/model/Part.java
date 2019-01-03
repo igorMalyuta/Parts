@@ -16,7 +16,8 @@ public class Part {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "type")
+    @Column(columnDefinition = "enum('CPU','RAM','HDD','MOTHERBOARD','CASE','SSD','GPU','SOUND_CARD')")
+    @Enumerated(EnumType.STRING)
     private PartType type;
 
     public Part() {

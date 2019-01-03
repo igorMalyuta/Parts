@@ -5,5 +5,7 @@ import java.util.List;
 
 public interface PartsRepository extends JpaRepository<Part, Integer> {
 
+//    List<Part> findPartsByNecessaryIsTrue();
     Part findByTitle(String title);
+    List<Part> findAll();
 }
