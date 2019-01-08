@@ -1,96 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
 
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
     <title>Parts List</title>
 </head>
-    <body>
-        <h2>Список комплектующих</h2>
+<body>
+<h2>Список комплектующих</h2>
 
-        <form class="form-inline" th:object="${title}"  th:action="@{search}" method="post">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" th:name="title" th:value="${title}" placeholder="Наименование">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Найти</button>
-                </div>
-            </div>
-            <!--<div>-->
-                <!--<input class="form-group mx-sm-3 mb-2" type="text" th:name="title" th:value="${title}" placeholder="Введите комплектующую"/>-->
-            <!--</div>-->
-            <!--<input class="btn btn-primary mb-2" type="submit" value="Найти"/>-->
-        </form>
-        <br>
-        <table class="table" border="2">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Наименование</th>
-                    <th>Необходимость</th>
-                    <th>Количество</th>
-                    <th>Редактировать</th>
-                    <th>Удалить</th>
-                </tr>
-            </thead>
-            <tr th:each="part : ${parts}" >
-                <td th:text="${part.title}"></td>
-                <td th:text="${part.isNecessary()}"></td>
-                <td th:text="${part.quantity}"></td>
-                <td>
-                    <a th:href="@{/edit/{id}(id=${part.id})}">Изменить</a>
-                </td>
-                <td>
-                    <a th:href="@{/delete/{id}(id=${part.id})}">Удалить</a>
-                </td>
-            </tr>
-        </table>
-
-        <div class="col-sm-7">
-            <!-- Pagination Bar -->
-            <div th:fragment='paginationbar'>
-                <div class="text-center">
-                    <ul class='pagination pagination-centered'>
-                        <li th:class="${page.firstPage}?'disabled':''">
-                            <span th:if='${page.firstPage}'>← First</span>
-                            <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>←
-                                First</a>
-                        </li>
-                        <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
-                            <span th:if='${not page.hasPreviousPage}'>«</span>
-                            <a th:if='${page.hasPreviousPage}'
-                               th:href='@{${page.url}(page=${page.number - 2},size=${page.size})}'
-                               title='Go to previous page'>«</a>
-                        </li>
-                        <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
-                            <span th:if='${item.current}' th:text='${item.number}'>1</span>
-                            <a th:if='${not item.current}'
-                               th:href='@{${page.url}(page=${item.number - 1},size=${page.size})}'><span
-                                    th:text='${item.number}'>1</span></a>
-                        </li>
-                        <li th:class="${page.hasNextPage}? '' : 'disabled'">
-                            <span th:if='${not page.hasNextPage}'>»</span>
-                            <a th:if='${page.hasNextPage}'
-                               th:href='@{${page.url}(page=${page.number},size=${page.size})}'
-                               title='Go to next page'>»</a>
-                        </li>
-                        <li th:class="${page.lastPage}? 'disabled' : ''">
-                            <span th:if='${page.lastPage}'>Last →</span>
-                            <a th:if='${not page.lastPage}'
-                               th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last →</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<!--More width to edit field-->
+<form class="form-inline" th:action="@{search}" th:object="${title}" method="post">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" th:name="title" th:value="${title}" placeholder="Наименование">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Найти</button>
         </div>
+    </div>
+</form>
 
-        <span class="badge badge-primary" th:text="'Можно собрать '+ ${minAssembly} +' компьютеров'"></span>
-        <br>
+<form method="get" action="/">
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input"
+               th:name="filter" th:value="all">
+        <label class="custom-control-label" for="customRadioInline1">Все</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input"
+               th:name="filter" th:value="nes">
+        <label class="custom-control-label" for="customRadioInline2">Необходимые</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input"
+               th:name="filter" th:value="opt">
+        <label class="custom-control-label" for="customRadioInline3">Опциональные</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Показать</button>
+</form>
 
+<div class="container">
+    <div class="row justify-content-center">
         <form method="get" action="/add-part">
             <button type="submit" class="btn btn-primary">Добавить комплектующую</button>
         </form>
-    </body>
+    </div>
+</div>
+
+<br>
+<table class="table" border="2">
+    <thead class="thead-dark">
+    <tr>
+        <th>Наименование</th>
+        <th>Необходимость</th>
+        <th>Количество</th>
+        <th>Редактировать</th>
+        <th>Удалить</th>
+    </tr>
+    </thead>
+    <tr th:each="part : ${parts}">
+        <td th:text="${part.title}"></td>
+        <td th:text="${part.isNecessary()} ? 'Да' : 'Нет'"></td>
+        <td th:text="${part.quantity}"></td>
+        <td>
+            <a th:href="@{/edit/{id}(id=${part.id})}">Редактировать</a>
+        <td>
+            <a th:href="@{/delete/{id}(id=${part.id})}">Удалить</a>
+        </td>
+    </tr>
+</table>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Страницы</a>
+        </li>
+        <li th:each="p : ${#numbers.sequence(0, page.getTotalPages()-1)}">
+            <a th:href="@{/(page=${p})}" th:text="${p+1}" class="nav-link"></a>
+        </li>
+    </ul>
+</div>
+
+<h3>
+    <span class="badge badge-primary badge-lg" th:text="'Можно собрать '+ ${minAssembly} +' компьютер(ов)'"></span>
+</h3>
+<br>
+
+</body>
 </html>
