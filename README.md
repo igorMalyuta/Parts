@@ -8,11 +8,16 @@ CRUD application compurets part.
 ====================================================
 
 Используемые технологии:
-  -Spring Boot
-  -Spring MVC
-  -Spring Data (Hibernate)
-  -MySQL
-  -Thymleaf
+
+Spring Boot
+
+Spring MVC
+
+Spring Data (Hibernate)
+
+MySQL
+
+Thymleaf
   
 ====================================================
 
