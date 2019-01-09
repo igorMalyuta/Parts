@@ -52,8 +52,8 @@ public class PartsController {
         return "index";
     }
 
-    @PostMapping("search")
-    public String searchResult(@ModelAttribute("title") String title, Model model) {
+    @GetMapping("search")
+    public String searchResult(@RequestParam("title") String title, Model model) {
         if (title == null || title.isEmpty())
             return "search-fail";
 

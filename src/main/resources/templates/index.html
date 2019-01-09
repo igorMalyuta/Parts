@@ -15,9 +15,9 @@
 <h2>Список комплектующих</h2>
 
 <!--More width to edit field-->
-<form class="form-inline" th:action="@{search}" th:object="${title}" method="post">
+<form class="form-inline" th:action="@{search}" method="get">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" th:name="title" th:value="${title}" placeholder="Наименование">
+        <input type="text" class="form-control" th:name="title" th:id="title" placeholder="Наименование">
         <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Найти</button>
         </div>
